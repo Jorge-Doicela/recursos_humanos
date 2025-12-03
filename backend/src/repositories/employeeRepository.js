@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../database/db.js';
 import { encrypt, decrypt, encryptSalary, decryptSalary } from '../utils/encryption.js';
-
-const prisma = new PrismaClient();
 
 /**
  * EmployeeRepository

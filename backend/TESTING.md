@@ -1,6 +1,6 @@
-# 🧪 GUÍA DE TESTING - Encriptación & Seguridad
+# GUÍA DE TESTING - Encriptación & Seguridad
 
-## 1️⃣ TESTING LOCAL (Antes de DB)
+## TESTING LOCAL (Antes de DB)
 
 ### Test de Encriptación en Memoria
 
@@ -12,15 +12,15 @@ node src/test-encryption.js
 **Salida esperada:**
 
 ```
-✓ Encriptación de valor: [valor encriptado]
-✓ Desencriptación: [valor original]
-✓ Encriptación de salario: [valor encriptado]
-✓ Desencriptación de salario: [valor numérico]
+Encriptación de valor: [valor encriptado]
+Desencriptación: [valor original]
+Encriptación de salario: [valor encriptado]
+Desencriptación de salario: [valor numérico]
 ```
 
 ---
 
-## 2️⃣ SETUP DE BASE DE DATOS
+## SETUP DE BASE DE DATOS
 
 ### Crear BD PostgreSQL
 
@@ -47,13 +47,13 @@ npm run prisma:dev
 
 ```
 Prisma schema loaded from prisma/schema.prisma
-✔ Your database is now in sync with your schema.
+Your database is now in sync with your schema.
 Generated Prisma Client
 ```
 
 ---
 
-## 3️⃣ TESTING DE API
+## TESTING DE API
 
 ### Opción A: cURL (Línea de comandos)
 
@@ -204,7 +204,7 @@ curl -X DELETE http://localhost:4000/employees/{ID}
 
 ---
 
-## 4️⃣ VERIFICACIÓN DE ENCRIPTACIÓN EN BD
+## VERIFICACIÓN DE ENCRIPTACIÓN EN BD
 
 ### Conectar a PostgreSQL
 
@@ -226,7 +226,7 @@ SELECT id, firstName, lastName, salary FROM employees;
  abc | Juan      | Pérez    | 6a3f8e2d...:a1b2c3d4...:f1f2f3f4...:x9y8z7w6... (encriptado)
 ```
 
-⚠️ **NOTA:** El salario se ve encriptado (formato hex) en la BD, pero la API lo devuelve desencriptado
+**NOTA:** El salario se ve encriptado (formato hex) en la BD, pero la API lo devuelve desencriptado
 
 ### Verificar estructura
 
@@ -247,7 +247,7 @@ SELECT id, firstName, lastName, salary FROM employees;
 
 ---
 
-## 5️⃣ TESTING DE SEGURIDAD
+## TESTING DE SEGURIDAD
 
 ### Test de CORS
 
@@ -353,7 +353,7 @@ curl -X POST http://localhost:4000/employees \
 
 ---
 
-## 6️⃣ TESTING CON NODE.JS
+## TESTING CON NODE.JS
 
 ### Script de Testing
 
@@ -364,11 +364,11 @@ const fetch = require("node-fetch");
 const BASE_URL = "http://localhost:4000";
 
 async function runTests() {
-  console.log("🧪 Iniciando tests...\n");
+  console.log("Iniciando tests...\n");
 
   try {
     // Test 1: Crear empleado
-    console.log("1️⃣ Crear empleado...");
+    console.log("Crear empleado...");
     const createRes = await fetch(`${BASE_URL}/employees`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -382,47 +382,47 @@ async function runTests() {
       }),
     });
     const created = await createRes.json();
-    console.log(`✓ Empleado creado: ${created.data.id}\n`);
+    console.log(`Empleado creado: ${created.data.id}\n`);
 
     // Test 2: Listar empleados
-    console.log("2️⃣ Listar empleados...");
+    console.log("Listar empleados...");
     const listRes = await fetch(`${BASE_URL}/employees`);
     const list = await listRes.json();
     console.log(`✓ ${list.data.length} empleados encontrados\n`);
 
     // Test 3: Obtener por ID
-    console.log("3️⃣ Obtener por ID...");
+    console.log("Obtener por ID...");
     const getRes = await fetch(`${BASE_URL}/employees/${created.data.id}`);
     const gotten = await getRes.json();
-    console.log(`✓ Salario: $${gotten.data.salary}\n`);
+    console.log(`Salario: $${gotten.data.salary}\n`);
 
     // Test 4: Actualizar
-    console.log("4️⃣ Actualizar salario...");
+    console.log("Actualizar salario...");
     const updateRes = await fetch(`${BASE_URL}/employees/${created.data.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ salary: 60000 }),
     });
     const updated = await updateRes.json();
-    console.log(`✓ Nuevo salario: $${updated.data.salary}\n`);
+    console.log(`Nuevo salario: $${updated.data.salary}\n`);
 
     // Test 5: Estadísticas
-    console.log("5️⃣ Obtener estadísticas...");
+    console.log("Obtener estadísticas...");
     const statsRes = await fetch(`${BASE_URL}/employees/stats/salary`);
     const stats = await statsRes.json();
     console.log(`✓ Promedio de salarios: $${stats.data.average}\n`);
 
     // Test 6: Eliminar
-    console.log("6️⃣ Eliminar empleado...");
+    console.log("Eliminar empleado...");
     const delRes = await fetch(`${BASE_URL}/employees/${created.data.id}`, {
       method: "DELETE",
     });
     const deleted = await delRes.json();
-    console.log(`✓ Empleado eliminado\n`);
+    console.log(`Empleado eliminado\n`);
 
-    console.log("✅ Todos los tests pasaron!");
+    console.log("Todos los tests pasaron!");
   } catch (error) {
-    console.error("❌ Error:", error.message);
+    console.error("Error:", error.message);
   }
 }
 
@@ -437,7 +437,7 @@ node tests/integration.test.js
 
 ---
 
-## 7️⃣ TESTING CON PRISMA STUDIO
+## TESTING CON PRISMA STUDIO
 
 Visualizar datos en tiempo real:
 
@@ -449,7 +449,7 @@ Se abre automáticamente en `http://localhost:5555`
 
 ---
 
-## 8️⃣ TESTING DE PERFORMANCE
+## TESTING DE PERFORMANCE
 
 ### Load Test (prueba de carga)
 
@@ -480,7 +480,7 @@ artillery run artillery-config.yml
 
 ---
 
-## ✅ CHECKLIST DE TESTING
+## CHECKLIST DE TESTING
 
 - [ ] Test de encriptación (`node src/test-encryption.js`)
 - [ ] BD creada y migraciones ejecutadas
@@ -501,7 +501,7 @@ artillery run artillery-config.yml
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "connect ECONNREFUSED"
 
@@ -526,4 +526,4 @@ artillery run artillery-config.yml
 ---
 
 **Última actualización:** 3 de diciembre de 2025  
-**Status:** ✅ Lista para Testing
+**Status:** Lista para Testing

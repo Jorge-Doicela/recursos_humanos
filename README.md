@@ -1,22 +1,22 @@
-# 🚀 Emplifi - Sistema de Gestión de Recursos Humanos
+# Emplifi - Sistema de Gestión de Recursos Humanos
 
 Plataforma moderna de gestión de recursos humanos diseñada para optimizar la administración del talento en pequeñas empresas.
 
-## 📋 Descripción
+## Descripción
 
 **Emplifi** es un sistema integral de RRHH que permite gestionar empleados, asistencia, nómina, evaluaciones y reportes desde un solo lugar. A diferencia de soluciones empresariales complejas, Emplifi se enfoca en pequeños negocios con una interfaz simple, funcional y accesible.
 
 ### Características principales
 
-- 👥 Gestión de empleados y contratos
-- ⏰ Control de asistencia y horarios
-- 💰 Gestión de nómina automatizada
-- 📊 Evaluación de desempeño
-- 📈 Reportes e indicadores
-- 🔔 Notificaciones y recordatorios
-- 🤖 Asistente inteligente de gestión (AIG)
+- Gestión de empleados y contratos
+- Control de asistencia y horarios
+- Gestión de nómina automatizada
+- Evaluación de desempeño
+- Reportes e indicadores
+- Notificaciones y recordatorios
+- Asistente inteligente de gestión (AIG)
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 ### Backend
 
@@ -39,7 +39,7 @@ Plataforma moderna de gestión de recursos humanos diseñada para optimizar la a
 - **3 capas** (Presentación, Lógica de Negocio, Acceso a Datos)
 - Estructura modular y escalable
 
-## 📦 Requisitos Previos
+## Requisitos Previos
 
 Antes de comenzar, asegúrate de tener instalado:
 
@@ -48,7 +48,7 @@ Antes de comenzar, asegúrate de tener instalado:
 - **Git** ([Descargar](https://git-scm.com/))
 - **npm** (incluido con Node.js)
 
-## 🚀 Instalación y Configuración
+## Instalación y Configuración
 
 ### 1. Clonar el repositorio
 
@@ -120,7 +120,7 @@ npm run dev
 
 El frontend estará corriendo en `http://localhost:5173`
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 recursos_humanos/
@@ -155,7 +155,7 @@ recursos_humanos/
 └── README.md
 ```
 
-## 🔧 Scripts Disponibles
+## Scripts Disponibles
 
 ### Backend
 
@@ -174,7 +174,7 @@ npm run preview          # Preview del build de producción
 npm run lint             # Ejecuta ESLint
 ```
 
-## ⚙️ Configuración de Prisma 7
+## Configuración de Prisma 7
 
 Este proyecto usa **Prisma 7**, que tiene una configuración diferente a versiones anteriores:
 
@@ -182,7 +182,7 @@ Este proyecto usa **Prisma 7**, que tiene una configuración diferente a version
 2. **Archivo `prisma.config.ts`**: Contiene la configuración de la base de datos
 3. **Generar cliente**: Siempre ejecutar `npx prisma generate` después de cambios en el schema
 
-## 🔐 Seguridad
+## Seguridad
 
 ### Encriptación de Salarios
 
@@ -223,7 +223,7 @@ ENCRYPTION_KEY=<64-caracteres-hexadecimales>
 - `backend/ARQUITECTURA.md` - Diagramas de arquitectura
 - `VERIFICACION_FINAL.md` - Reporte de verificación
 
-## 🧪 Verificación
+## Verificación
 
 Para verificar que la implementación de seguridad funciona correctamente:
 
@@ -234,14 +234,14 @@ node validate-implementation.js
 
 Este script ejecuta 11 tests automatizados verificando:
 
-- ✓ Encriptación y desencriptación
-- ✓ Salt y IV únicos
-- ✓ Componentes de encriptación
-- ✓ Algoritmo AES-256-GCM
-- ✓ PBKDF2 key derivation
-- ✓ Archivos de implementación
+- Encriptación y desencriptación
+- Salt y IV únicos
+- Componentes de encriptación
+- Algoritmo AES-256-GCM
+- PBKDF2 key derivation
+- Archivos de implementación
 
-## 🐛 Solución de Problemas
+## Solución de Problemas
 
 ### Error: "Cannot find module"
 
@@ -266,21 +266,9 @@ Si el puerto 4000 o 5173 ya está en uso, puedes cambiarlos:
 - Backend: Modifica `PORT` en `.env`
 - Frontend: Modifica el puerto en `vite.config.js`
 
-## 🤝 Contribuir
+## Autores
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -m 'Agrega nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
-## 📝 Licencia
-
-Este proyecto está bajo la Licencia ISC.
-
-## 👥 Autores
-
-Desarrollado como parte del sistema de gestión empresarial para pequeños negocios.
+Desarrollado por Karen Mendoza y Jorge Doicela.
 
 ---
 

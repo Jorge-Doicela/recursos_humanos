@@ -1,4 +1,4 @@
-# ENCRIPTACIÓN DE SALARIOS - Documentación Completa
+# ENCRIPTACIÓN DE SALARIOS
 
 ## Descripción General
 

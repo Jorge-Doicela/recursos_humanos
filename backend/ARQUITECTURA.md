@@ -1,4 +1,4 @@
-# 🎨 DIAGRAMA DE ARQUITECTURA
+# DIAGRAMA DE ARQUITECTURA
 
 ## Flujo de Solicitud HTTP
 
@@ -244,38 +244,38 @@ ENTRADA: encryptedValue = "salt:iv:authTag:encrypted"
 ```
 ┌─────────────────────────────────────┐
 │  NIVEL 1: TRANSPORTE                │
-│  ✓ HTTPS en producción              │
-│  ✓ CORS whitelist                   │
-│  ✓ Helmet headers                   │
+│    HTTPS en producción              │
+│    CORS whitelist                   │
+│    Helmet headers                   │
 └────────────┬────────────────────────┘
              │
 ┌────────────▼────────────────────────┐
 │  NIVEL 2: APLICACIÓN                │
-│  ✓ Validación en Controller         │
-│  ✓ Validación en Service            │
-│  ✓ Manejo de errores centralizado   │
+│    Validación en Controller         │
+│    Validación en Service            │
+│    Manejo de errores centralizado   │
 └────────────┬────────────────────────┘
              │
 ┌────────────▼────────────────────────┐
 │  NIVEL 3: LÓGICA DE NEGOCIO         │
-│  ✓ Emails únicos                    │
-│  ✓ Salarios validados               │
-│  ✓ Autorización futura (JWT)        │
+│    Emails únicos                    │
+│    Salarios validados               │
+│    Autorización futura (JWT)        │
 └────────────┬────────────────────────┘
              │
 ┌────────────▼────────────────────────┐
 │  NIVEL 4: DATOS                     │
-│  ✓ AES-256-GCM encriptación         │
-│  ✓ Salt único por valor             │
-│  ✓ Auth Tag verifica integridad     │
-│  ✓ PBKDF2 key derivation            │
+│    AES-256-GCM encriptación         │
+│    Salt único por valor             │
+│    Auth Tag verifica integridad     │
+│    PBKDF2 key derivation            │
 └────────────┬────────────────────────┘
              │
 ┌────────────▼────────────────────────┐
 │  NIVEL 5: BASE DE DATOS             │
-│  ✓ Valores encriptados (TEXT)       │
-│  ✓ Índices en campos públicos       │
-│  ✓ Backups encriptados (futuro)     │
+│    Valores encriptados (TEXT)       │
+│    Índices en campos públicos       │
+│    Backups encriptados (futuro)     │
 └─────────────────────────────────────┘
 ```
 
