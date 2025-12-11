@@ -7,26 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo de Empleado
+// --- MODELO PRINCIPAL (Login y Recuperación) ---
 model Employee {
-  id                String   @id @default(cuid())
-  firstName         String
-  lastName          String
-  email             String   @unique
-  department        String
-  position          String
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String   @unique
   
-  // Salario encriptado en la base de datos
-  // Se almacena como: salt:iv:authTag:encryptedData
-  salary            String   // Valor encriptado
-  
-  password          String   // Contraseña hasheada
-  role              String   @default("employee") // Rol: 'admin' | 'employee'
+  department String
+  position   String? 
+  salary     String   
+  password   String   
+  role       String   @default("employee")
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  // === AGREGAMOS ESTOS 2 CAMPOS AQUÍ ===
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  // =====================================
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([email])
   @@index([department])
   @@map("employees")
+}
+
+// --- TU OTRA TABLA (La dejamos quieta) ---
+model User {
+  id               Int       @id @default(autoincrement())
+  email            String    @unique
+  password         String
+  resetToken       String?   
+  resetTokenExpiry DateTime? 
 }

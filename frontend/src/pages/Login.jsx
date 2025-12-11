@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 
 const API_BASE_URL = 'http://localhost:4000'
@@ -135,9 +136,13 @@ function Login({ onLogin }) {
                         >
                             ← Volver al inicio
                         </button>
-                        <a href="#" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
-                            ¿Olvidaste tu contraseña?
-                        </a>
+                        {/* Esto SÍ navega a la pantalla que creamos */}
+<Link 
+  to="/forgot-password" 
+  className="text-sm font-medium text-blue-500 hover:text-blue-400 hover:underline"
+>
+  ¿Olvidaste tu contraseña?
+</Link>
                     </div>
                 </form>
             </section>

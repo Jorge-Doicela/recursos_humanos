@@ -56,3 +56,47 @@ export const login = async (req, res) => {
         });
     }
 };
+
+// controllers/auth.controller.js
+
+
+// controllers/authController.js
+import * as authService from '../services/auth.service.js'; // Asegúrate que la ruta sea correcta
+
+export const forgotPassword = async (req, res) => {
+    console.log("--- INICIO DEBUG FORGOT PASSWORD ---");
+    
+    // 1. Ver qué llega exactamente
+    const { email } = req.body;
+    console.log("1. Email recibido:", email);
+    console.log("2. Tipo de dato:", typeof email);
+    
+    if (!email) {
+        console.log("ERROR: El email llegó vacío o undefined");
+        return res.status(400).json({ error: "No se envió el campo email" });
+    }
+
+    try {
+        // 3. Llamar al servicio
+        console.log("3. Llamando al servicio...");
+        const result = await authService.solicitarRecuperacion(email);
+        console.log("4. Servicio respondió éxito");
+        res.json(result);
+        
+    } catch (error) {
+        console.log("--- ERROR ENCONTRADO ---");
+        console.error(error.message); // Aquí saldrá por qué falló
+        res.status(400).json({ error: error.message });
+    }
+    console.log("--- FIN DEBUG ---");
+};
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params; // O req.body, depende de cómo lo envíes
+    const { password } = req.body;
+    const result = await authService.restablecerContrasena(token, password);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
