@@ -1,6 +1,9 @@
 import { Router } from 'express';
-// 1. AÑADIMOS LAS IMPORTACIONES AQUÍ
-import { login, forgotPassword, resetPassword } from '../controllers/authController.js';
+import { login } from '../controllers/authController.js';
+import employeeRoutes from './employee.routes.js';
+import contractRoutes from './contract.routes.js';
+import documentRoutes from './document.routes.js';
+
 
 const router = Router();
 
@@ -12,14 +15,9 @@ router.get('/', (req, res) => {
 // Login real
 router.post('/auth/login', login);
 
-// ==========================================
-// 2. AÑADIMOS LAS RUTAS DE RECUPERACIÓN
-// ==========================================
-
-// Paso 1: El usuario envía su correo para pedir el link
-router.post('/auth/forgot-password', forgotPassword);
-
-// Paso 2: El usuario envía el token y la nueva contraseña
-router.post('/auth/reset-password/:token', resetPassword);
+// Rutas de empleados
+router.use('/employees', employeeRoutes);
+router.use('/contracts', contractRoutes);
+router.use('/documents', documentRoutes);
 
 export default router;

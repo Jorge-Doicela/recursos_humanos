@@ -4,8 +4,9 @@ import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import EmployeeDashboard from './pages/EmployeeDashboard.jsx'
-import ForgotPassword from './pages/ForgotPassword.jsx'
-import ResetPassword from './pages/ResetPassword.jsx'
+import RegisterEmployee from './pages/RegisterEmployee.jsx'
+import EmployeeList from './pages/EmployeeList.jsx'
+import EmployeeProfile from './pages/EmployeeProfile.jsx'
 
 function App() {
   const [auth, setAuth] = useState({ user: null, token: null })
@@ -35,13 +36,6 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login onLogin={handleLogin} />} />
-
-      {/* ================================================== */}
-      {/* ¡ESTO ES LO QUE TE FALTABA AGREGAR! 👇 */}
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password/:token" element={<ResetPassword />} />
-      {/* ================================================== */}
-
       <Route
         path="/admin"
         element={
@@ -58,8 +52,40 @@ function App() {
           </RequireAuth>
         }
       />
-      
-      {/* Esta línea siempre debe ser LA ÚLTIMA */}
+      <Route
+        path="/admin/register-employee"
+        element={
+          <RequireAuth role="admin">
+            <RegisterEmployee token={auth.token} />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/employees"
+        element={
+          <RequireAuth role="admin">
+            <EmployeeList token={auth.token} />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/employees/:id"
+        element={
+          <RequireAuth role="admin">
+            <EmployeeProfile token={auth.token} />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <RequireAuth>
+            {/* Si es admin o empleado, puede ver su propio perfil (usando su ID del token/estado) */}
+            <div className="p-4 text-center">Redireccionando a tu perfil...</div>
+            {/* Nota: Idealmente redirigir a /admin/employees/:myId o mostrar el componente directo */}
+          </RequireAuth>
+        }
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

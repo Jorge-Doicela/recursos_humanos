@@ -1,8 +1,26 @@
 
 
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 function AdminDashboard({ user, onLogout }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [successMsg, setSuccessMsg] = useState('');
+
+    useEffect(() => {
+        if (location.state?.successMessage) {
+            setSuccessMsg(location.state.successMessage);
+            // Clear state so it doesn't persist on refresh/back
+            window.history.replaceState({}, document.title);
+
+            // Auto-hide after 3 seconds
+            const timer = setTimeout(() => setSuccessMsg(''), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [location]);
     const modules = [
-        { title: 'Empleados', icon: '', color: 'bg-blue-500', path: '/employees' },
+        { title: 'Empleados', icon: '', color: 'bg-blue-500', path: '/admin/employees' },
         { title: 'Asistencia', icon: '', color: 'bg-purple-500', path: '/attendance' },
         { title: 'Nómina', icon: '', color: 'bg-green-500', path: '/payroll' },
         { title: 'Evaluaciones', icon: '', color: 'bg-orange-500', path: '/performance' },
@@ -64,9 +82,26 @@ function AdminDashboard({ user, onLogout }) {
             <main className="flex-1 overflow-y-auto">
                 <header className="h-16 bg-slate-900/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-8 sticky top-0 z-10">
                     <h2 className="text-xl font-semibold">Panel de Control</h2>
-                    <div className="md:hidden">
-                        {/* Mobile menu button placeholder */}
-                        <button className="text-slate-400">☰</button>
+                    {successMsg && (
+                        <div className="fixed top-20 right-8 z-50 animate-fade-in-down">
+                            <div className="bg-emerald-500/90 backdrop-blur text-white px-6 py-3 rounded-lg shadow-lg border border-emerald-400/50 flex items-center gap-3">
+                                <span className="text-2xl">✓</span>
+                                <p className="font-medium">{successMsg}</p>
+                                <button onClick={() => setSuccessMsg('')} className="ml-2 text-white/80 hover:text-white">✕</button>
+                            </div>
+                        </div>
+                    )}
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => navigate('/admin/register-employee')}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition text-sm font-medium hidden md:block"
+                        >
+                            + Nuevo Empleado
+                        </button>
+                        <div className="md:hidden">
+                            {/* Mobile menu button placeholder */}
+                            <button className="text-slate-400">☰</button>
+                        </div>
                     </div>
                 </header>
 
@@ -102,6 +137,7 @@ function AdminDashboard({ user, onLogout }) {
                             {modules.map((mod, idx) => (
                                 <button
                                     key={idx}
+                                    onClick={() => navigate(mod.path)}
                                     className="group relative overflow-hidden rounded-2xl bg-slate-800/50 border border-white/5 p-6 hover:bg-slate-800 transition-all hover:-translate-y-1 text-left"
                                 >
                                     <div className={`absolute top-0 right-0 w-24 h-24 ${mod.color} opacity-10 rounded-bl-full group-hover:scale-110 transition-transform`}></div>

@@ -12,7 +12,10 @@ export class EmployeeController {
    */
   async create(req, res) {
     try {
-      const { firstName, lastName, email, department, position, salary, password, role } = req.body;
+      const {
+        firstName, lastName, email, department, position, salary, password, role,
+        identityCard, birthDate, address, phone, hireDate, contractType, civilStatus
+      } = req.body;
 
       const hashedPassword = await bcrypt.hash(password || 'defaultPassword123', 10);
 
@@ -25,6 +28,13 @@ export class EmployeeController {
         salary,
         password: hashedPassword,
         role: role || 'employee',
+        identityCard,
+        birthDate: new Date(birthDate),
+        address,
+        phone,
+        hireDate: new Date(hireDate),
+        contractType,
+        civilStatus,
       });
 
       res.status(201).json({
@@ -46,12 +56,13 @@ export class EmployeeController {
    */
   async getAll(req, res) {
     try {
-      const { page = 1, limit = 10 } = req.query;
+      const { page = 1, limit = 10, q } = req.query;
       const skip = (parseInt(page) - 1) * parseInt(limit);
 
       const employees = await employeeService.getAllEmployees({
         skip,
         take: parseInt(limit),
+        q,
       });
 
       res.status(200).json({
@@ -128,8 +139,9 @@ export class EmployeeController {
     try {
       const { id } = req.params;
       const updateData = req.body;
+      const userId = req.user?.id;
 
-      const employee = await employeeService.updateEmployee(id, updateData);
+      const employee = await employeeService.updateEmployee(id, updateData, userId);
 
       res.status(200).json({
         success: true,
@@ -186,6 +198,28 @@ export class EmployeeController {
       res.status(500).json({
         success: false,
         message: error.message || 'Error al obtener estadísticas',
+      });
+    }
+  }
+
+  /**
+   * GET /employees/:id/history
+   * Obtener historial de cambios
+   */
+  async getHistory(req, res) {
+    try {
+      const { id } = req.params;
+      const history = await employeeService.getEmployeeHistory(id);
+
+      res.status(200).json({
+        success: true,
+        message: 'Historial obtenido exitosamente',
+        data: history,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Error al obtener historial',
       });
     }
   }

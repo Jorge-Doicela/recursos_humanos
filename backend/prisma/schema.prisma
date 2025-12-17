@@ -7,37 +7,118 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --- MODELO PRINCIPAL (Login y Recuperación) ---
+// Modelo de Empleado
 model Employee {
-  id        String   @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String   @unique
+  id                String   @id @default(cuid())
+  firstName         String
+  lastName          String
+  email             String   @unique
+  department        String
+  position          String
   
-  department String
-  position   String? 
-  salary     String   
-  password   String   
-  role       String   @default("employee")
+  identityCard      String   @unique
+  birthDate         DateTime
+  address           String
+  phone             String
+  hireDate          DateTime
+  contractType      String
+  civilStatus       String
+  
+  // Salario encriptado en la base de datos
+  // Se almacena como: salt:iv:authTag:encryptedData
+  salary            String   // Valor encriptado
+  
+  password          String   // Contraseña hasheada
+  role              String   @default("employee") // Rol: 'admin' | 'employee'
 
-  // === AGREGAMOS ESTOS 2 CAMPOS AQUÍ ===
-  resetToken       String?
-  resetTokenExpiry DateTime?
-  // =====================================
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  // Relaciones
+  skills            Skill[]
+  workHistory       WorkHistory[]
+  contracts         Contract[]
+  documents         Document[]
 
   @@index([email])
   @@index([department])
   @@map("employees")
 }
 
-// --- TU OTRA TABLA (La dejamos quieta) ---
-model User {
-  id               Int       @id @default(autoincrement())
-  email            String    @unique
-  password         String
-  resetToken       String?   
-  resetTokenExpiry DateTime? 
+
+model Skill {
+  id          String   @id @default(cuid())
+  name        String
+  level       String   // Beginner, Intermediate, Advanced, Expert
+  
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@index([employeeId])
+  @@map("skills")
+}
+
+model WorkHistory {
+  id          String   @id @default(cuid())
+  company     String
+  position    String
+  startDate   DateTime
+  endDate     DateTime?
+  description String?  @db.Text
+  
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@index([employeeId])
+  @@map("work_history")
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  entity      String   // "Employee"
+  entityId    String
+  action      String   // "UPDATE", "CREATE"
+  performedBy String   // User name or ID
+  details     String   @db.Text // JSON string of changes
+  timestamp   DateTime @default(now())
+  
+  @@index([entityId])
+  @@map("audit_logs")
+}
+
+model Contract {
+  id          String   @id @default(cuid())
+  type        String   // "Indefinido", "Temporal", "Por Obra", etc.
+  startDate   DateTime
+  endDate     DateTime?
+  salary      Float
+  clauses     String?  @db.Text
+  documentUrl String?  // Path to PDF
+  status      String   @default("Active") // Active, Expired, Terminated
+  
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([employeeId])
+  @@map("contracts")
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  type        String   // "DNI", "Licencia", "Certificado", "Otro"
+  documentUrl String   // Filename
+  originalName String?
+  mimeType    String?
+  expiryDate  DateTime?
+  
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([employeeId])
+  @@map("documents")
 }
